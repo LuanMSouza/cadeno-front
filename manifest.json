@@ -4,8 +4,10 @@
     "description": "App para gerenciar pedidos e pagamentos",
     "start_url": "/",
     "display": "standalone",
+    "orientation": "portrait-primary",
     "background_color": "#ffffff",
     "theme_color": "#3085d6",
+    "scope": "/",
     "icons": [
         {
             "src": "/icon-192.png",
