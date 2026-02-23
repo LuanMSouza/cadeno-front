@@ -1,0 +1,54 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: rgba(173, 216, 230, 0.5);
+}
+
+.ContainerPrincipal {
+  width: 800px;
+  margin: 0 auto;
+  background-color: #8cc2ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  box-shadow: 0 0 20px;
+  border-left: 5px solid white;
+  border-right: 5px solid white;
+  position: relative;
+}
+
+.Container {
+  width: 800px;
+  margin: 0 auto;
+  background-color: #8cc2ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  box-sizing: border-box;
+  box-shadow: 0 0 20px;
+  border-left: 5px solid white;
+  border-right: 5px solid white;
+  position: relative;
+  }
+
+  .Button-Voltar{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
