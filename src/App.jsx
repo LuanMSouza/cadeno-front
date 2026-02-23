@@ -8,7 +8,7 @@ import Pedidos from "./telas/pedidos"
 
 function App() {
 
-  const [tela, setTela] = useState('consulta')
+  const [tela, setTela] = useState('descanso')
 
   function mudarTela(novaTela) {
     setTela(novaTela)
