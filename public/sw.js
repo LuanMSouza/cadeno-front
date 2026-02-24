@@ -1,7 +1,7 @@
 const CACHE_NAME = 'caderno-v1';
 const urlsToCache = [
     '/',
-    '/index.html',
+    'index.html',
     '/manifest.json',
     '/android-launchericon-192-192.png', // Nome exato do seu arquivo
     '/android-launchericon-512-512.png'  // Certifique-se que o de 512 também tem esse padrão
@@ -11,7 +11,11 @@ const urlsToCache = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(urlsToCache))
+            .then(cache => {
+                console.log('Abrindo cache e adicionando arquivos...');
+                return cache.addAll(urlsToCache);
+            })
+            .catch(err => console.error('Erro no addAll (provavelmente arquivo não encontrado):', err))
     );
 });
 
