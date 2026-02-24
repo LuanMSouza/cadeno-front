@@ -143,20 +143,18 @@ function Pedidos({ setTela }) {
 
     function adicionarAoCarrinho(produto) {
         setCarrinho(prevCarrinho => {
-            // checa se já existe
-            const existe = prevCarrinho.find(p => p.nome === produto.nome)
+            const existe = prevCarrinho.find(p => p.nome === produto.nome);
             if (existe) {
-                // se já existe, só aumenta quantidade
                 return prevCarrinho.map(p =>
                     p.nome === produto.nome
-                        ? { ...p, quantidade: p.quantidade + 1, valor: (p.quantidade + 1) * p.preco }
+                        ? { ...p, quantidade: p.quantidade + 1 } // Não salvamos o total aqui!
                         : p
-                )
+                );
             } else {
-                // se não existe, adiciona
-                return [...prevCarrinho, { ...produto, quantidade: 1, valor: produto.preco }]
+                // Garanta que o produto venha com a propriedade 'preco' do banco
+                return [...prevCarrinho, { ...produto, quantidade: 1 }];
             }
-        })
+        });
     }
 
     function removerItem(nome) {
@@ -176,15 +174,16 @@ function Pedidos({ setTela }) {
     }
 
     async function fecharPedido() {
-
         if (!clienteSelect) {
             alert('Selecione um cliente para fechar o pedido.')
             return
         }
 
+        const nomeParaEnviar = clienteSelect.trim().toLowerCase();
+
         try {
-            const response = await api.post('/pedidos/novo', {
-                cliente: clienteSelect,
+            await api.post('/pedidos/novo', {
+                cliente: nomeParaEnviar,
                 itens: carrinho
             })
             Swal.fire('Sucesso!!', 'Pedido fechado com sucesso!', 'success')

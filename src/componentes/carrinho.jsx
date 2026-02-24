@@ -103,7 +103,8 @@ function Carrinho({ carrinho, onClose, removerItem, fecharPedido }) {
     const formatarValor = (valor) =>
         new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor)
 
-    const total = carrinho.reduce((acc, item) => acc + item.valor, 0)
+    // 1. No cálculo do total (use item.valor ou calcule na hora)
+    const total = carrinho.reduce((acc, item) => acc + (item.preco * item.quantidade), 0);
 
     return (
         <Modal>
@@ -118,7 +119,10 @@ function Carrinho({ carrinho, onClose, removerItem, fecharPedido }) {
                         <Lista>
                             {carrinho.map(item => (
                                 <Item key={item.id}>
-                                    <span>{item.nome} - {formatarValor(item.preco)} x {item.quantidade} = {formatarValor(item.valor)}</span>
+                                    <span>
+                                        {item.nome} - {formatarValor(item.preco)} x {item.quantidade} = {formatarValor(item.preco * item.quantidade)}
+                                    </span>
+
                                     <button onClick={() => removerItem(item.nome)}>Remover</button>
                                 </Item>
                             ))}

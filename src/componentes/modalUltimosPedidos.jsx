@@ -52,6 +52,24 @@ const PedidoCard = styled.div`
     padding: 15px;
     margin: 10px 0;
     background-color: #f9f9f9;
+    opacity: ${props => props.$pago ? 0.6 : 1}; // Opacidade se estiver pago
+    transition: opacity 0.3s ease;
+`
+
+const ResumoFinanceiro = styled.div`
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 2px dashed #eee;
+    font-size: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    
+    .restante {
+        color: #e74c3c;
+        font-weight: bold;
+        font-size: 1rem;
+    }
 `
 
 const PedidoHeader = styled.p`
@@ -112,19 +130,26 @@ function ModalUltimosPedidos({ clienteId, clienteNome, fecharModal, registarPaga
     }
 
     return (
-        <>
-            <Modal>
-                <Conteudo>
-                    <BtnFechar onClick={fecharModal}>X</BtnFechar>
-                    <h2>{clienteNome} - Últimos Pedidos</h2>
+        <Modal>
+            <Conteudo>
+                <BtnFechar onClick={fecharModal}>X</BtnFechar>
+                <h2>{clienteNome} - Últimos Pedidos</h2>
 
-                    <BtnRegistrar onClick={() => registarPagamento(clienteId, clienteNome, pedidos.reduce((total, pedido) => total + pedido.valor_total, 0))}>Registrar Pagamento</BtnRegistrar>
+                <BtnRegistrar onClick={() => registarPagamento(clienteId, clienteNome, pedidos.reduce((total, pedido) => total + pedido.valor_total, 0))}>
+                    Registrar Pagamento
+                </BtnRegistrar>
 
-                    {pedidos.length > 0 ? (
-                        pedidos.map(pedido => (
-                            <PedidoCard key={pedido.id}>
+                {pedidos.length > 0 ? (
+                    pedidos.map(pedido => {
+                        const vTotal = parseFloat(pedido.valor_total || 0);
+                        const vAbatido = parseFloat(pedido.ja_abatido || 0);
+                        const vRestante = vTotal - vAbatido;
+                        const isPago = vRestante <= 0;
+
+                        return (
+                            <PedidoCard key={pedido.id} $pago={isPago}>
                                 <PedidoHeader>
-                                    Pedido #{pedido.id} - R$ {formatarValor(pedido.valor_total)} - {formatarData(pedido.data)}
+                                    Pedido #{pedido.id} - {formatarData(pedido.data)}
                                 </PedidoHeader>
 
                                 {pedido.itens && pedido.itens.length > 0 ? (
@@ -136,14 +161,34 @@ function ModalUltimosPedidos({ clienteId, clienteNome, fecharModal, registarPaga
                                 ) : (
                                     <ItemLista>Sem itens registrados</ItemLista>
                                 )}
+
+                                <ResumoFinanceiro>
+                                    {isPago ? (
+                                        <span style={{ color: '#27ae60', fontWeight: 'bold' }}>✅ PEDIDO PAGO</span>
+                                    ) : (
+                                        <>
+                                            {vAbatido > 0 ? (
+                                                /* Caso tenha abatimento parcial */
+                                                <>
+                                                    <span>Total Original: R$ {formatarValor(vTotal)}</span>
+                                                    <span>Já Abatido: R$ {formatarValor(vAbatido)}</span>
+                                                    <span className="restante">Falta Pagar: R$ {formatarValor(vRestante)}</span>
+                                                </>
+                                            ) : (
+                                                /* Caso não tenha abatido nada ainda */
+                                                <span className="restante">Valor: R$ {formatarValor(vTotal)}</span>
+                                            )}
+                                        </>
+                                    )}
+                                </ResumoFinanceiro>
                             </PedidoCard>
-                        ))
-                    ) : (
-                        <p>Nenhum pedido em aberto</p>
-                    )}
-                </Conteudo>
-            </Modal>
-        </>
+                        )
+                    })
+                ) : (
+                    <p>Nenhum pedido em aberto</p>
+                )}
+            </Conteudo>
+        </Modal>
     )
 }
 

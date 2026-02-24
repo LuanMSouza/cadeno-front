@@ -43,7 +43,7 @@ function Consultas({ setTela }) {
     useEffect(() => {
         pegarDados()
 
-    })
+    },[])
 
     function registarPagamento(id, nome, valor) {
         // 🔒 BLINDA: Converta valor para número desde o início
