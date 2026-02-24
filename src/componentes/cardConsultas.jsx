@@ -44,6 +44,8 @@ function CardConsultas({ id, nome, valor, data, abrirModal }) {
     function formatarData(isoString) {
         const date = new Date(isoString);
 
+        date.setDate(date.getDate() + 1);
+
         const dia = String(date.getDate()).padStart(2, '0');
         const mes = String(date.getMonth() + 1).padStart(2, '0'); // meses começam do 0
         const ano = date.getFullYear();
