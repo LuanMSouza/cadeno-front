@@ -72,6 +72,18 @@ const ItemLista = styled.div`
     }
 `
 
+const BtnRegistrar = styled.button`
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 5px;
+    background-color: #28a745;  
+    color: white;
+    cursor: pointer;    
+    &:hover{
+        background-color: #218838;
+    }
+`
+
 function ModalUltimosPedidos({ clienteId, clienteNome, fecharModal, registarPagamento }) {
     const [pedidos, setPedidos] = useState([])
 
@@ -106,9 +118,8 @@ function ModalUltimosPedidos({ clienteId, clienteNome, fecharModal, registarPaga
                     <BtnFechar onClick={fecharModal}>X</BtnFechar>
                     <h2>{clienteNome} - Últimos Pedidos</h2>
 
-                    <button onClick={() => registarPagamento(clienteId, clienteNome, pedidos.reduce((total, pedido) => total + pedido.valor_total, 0))}>Registrar Pagamento</button>
+                    <BtnRegistrar onClick={() => registarPagamento(clienteId, clienteNome, pedidos.reduce((total, pedido) => total + pedido.valor_total, 0))}>Registrar Pagamento</BtnRegistrar>
 
-                    <p>Valor devedor: R$ {formatarValor(pedidos.reduce((total, pedido) => total + (parseFloat(pedido.valor_total) || 0), 0))}</p>
                     {pedidos.length > 0 ? (
                         pedidos.map(pedido => (
                             <PedidoCard key={pedido.id}>

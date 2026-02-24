@@ -4,6 +4,7 @@ import api from "../axios"
 import CardCategorias from "../componentes/cardCategorias"
 import ModalProdutos from "../componentes/modalProdutos"
 import Carrinho from "../componentes/carrinho"
+import Swal from "sweetalert2"
 
 const Titulo = styled.p`
   font-size: 2rem;
@@ -186,11 +187,12 @@ function Pedidos({ setTela }) {
                 cliente: clienteSelect,
                 itens: carrinho
             })
-            alert('Pedido fechado com sucesso!')
+            Swal.fire('Sucesso!!', 'Pedido fechado com sucesso!', 'success')
             setCarrinho([])
             setTela('descanso')
         } catch (error) {
-
+            console.log(error);
+            Swal.fire('Erro', 'Ocorreu um erro ao fechar o pedido. Tente novamente.', 'error')
         }
 
     }

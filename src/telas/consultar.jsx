@@ -45,84 +45,84 @@ function Consultas({ setTela }) {
 
     })
 
-function registarPagamento(id, nome, valor) {
-    // 🔒 BLINDA: Converta valor para número desde o início
-    valor = parseFloat(valor) || 0;
+    function registarPagamento(id, nome, valor) {
+        // 🔒 BLINDA: Converta valor para número desde o início
+        valor = parseFloat(valor) || 0;
 
-    Swal.fire({
-        title: 'Registrar pagamento?',
-        text: `Deseja registrar o pagamento de ${nome}?`,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sim, registrar!'
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            Swal.fire({
-                title: 'Digite o valor pago',
-                input: 'text',
-                inputAttributes: {
-                    autocapitalize: 'off',
-                    placeholder: '0,00'
-                },
-                showCancelButton: true,
-            })
-                .then(async (result) => {
-                    if (result.isConfirmed) {
+        Swal.fire({
+            title: 'Registrar pagamento?',
+            text: `Deseja registrar o pagamento de ${nome}?`,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sim, registrar!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Digite o valor pago',
+                    input: 'text',
+                    inputAttributes: {
+                        autocapitalize: 'off',
+                        placeholder: '0,00'
+                    },
+                    showCancelButton: true,
+                })
+                    .then(async (result) => {
+                        if (result.isConfirmed) {
 
-                        const valorFormatado = result.value.replace(',', '.');
-                        const valorPago = parseFloat(valorFormatado);
+                            const valorFormatado = result.value.replace(',', '.');
+                            const valorPago = parseFloat(valorFormatado);
 
-                        // 🔒 BLINDA: Validações antes de enviar
-                        if (result.value === '' || isNaN(valorPago)) {
-                            Swal.fire('Valor inválido', 'Por favor, insira um valor numérico válido.', 'error')
-                            return;
-                        }
-
-                        if (valorPago <= 0) {
-                            Swal.fire('Valor inválido', 'O valor deve ser maior que zero.', 'error')
-                            return;
-                        }
-
-                        // 🔒 BLINDA: Não permitir pagamento maior que o devedor
-                        if (valorPago > valor) {
-                            Swal.fire(
-                                'Valor maior que o devedor',
-                                `O valor máximo permitido é R$ ${valor.toFixed(2).replace('.', ',')}`,
-                                'error'
-                            )
-                            return;
-                        }
-
-                        try {
-                            const response = await api.post(`/pedidos/registrar-pagamento/${id}`, {
-                                valor: valorPago
-                            })
-
-                            if (response.data.saldo_restante > 0) {
-                                Swal.fire(
-                                    'Pagamento registrado!',
-                                    `Saldo restante: R$ ${response.data.saldo_restante.toFixed(2).replace('.', ',')}`,
-                                    'success'
-                                )
-                            } else {
-                                Swal.fire('Pagamento registrado com sucesso!', 'Dívida quitada!', 'success')
+                            // 🔒 BLINDA: Validações antes de enviar
+                            if (result.value === '' || isNaN(valorPago)) {
+                                Swal.fire('Valor inválido', 'Por favor, insira um valor numérico válido.', 'error')
+                                return;
                             }
 
-                            pegarDados()
-                        } catch (error) {
-                            Swal.fire(
-                                'Erro ao registrar pagamento',
-                                error.response?.data?.error || 'Tente novamente',
-                                'error'
-                            )
+                            if (valorPago <= 0) {
+                                Swal.fire('Valor inválido', 'O valor deve ser maior que zero.', 'error')
+                                return;
+                            }
+
+                            // 🔒 BLINDA: Não permitir pagamento maior que o devedor
+                            if (valorPago > valor) {
+                                Swal.fire(
+                                    'Valor maior que o devedor',
+                                    `O valor máximo permitido é R$ ${valor.toFixed(2).replace('.', ',')}`,
+                                    'error'
+                                )
+                                return;
+                            }
+
+                            try {
+                                const response = await api.post(`/pedidos/registrar-pagamento/${id}`, {
+                                    valor: valorPago
+                                })
+
+                                if (response.data.saldo_restante > 0) {
+                                    Swal.fire(
+                                        'Pagamento registrado!',
+                                        `Saldo restante: R$ ${response.data.saldo_restante.toFixed(2).replace('.', ',')}`,
+                                        'success'
+                                    )
+                                } else {
+                                    Swal.fire('Pagamento registrado com sucesso!', 'Dívida quitada!', 'success')
+                                }
+
+                                pegarDados()
+                            } catch (error) {
+                                Swal.fire(
+                                    'Erro ao registrar pagamento',
+                                    error.response?.data?.error || 'Tente novamente',
+                                    'error'
+                                )
+                            }
                         }
-                    }
-                })
-        }
-    })
-}
+                    })
+            }
+        })
+    }
 
     const [modalPedidos, setModalPedidos] = useState({
         aberto: false,

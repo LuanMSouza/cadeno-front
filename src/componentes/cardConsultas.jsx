@@ -31,6 +31,7 @@ const MiniContainer = styled.div`
     align-items: center;
     gap: 5px;
 `
+
 function CardConsultas({ id, nome, valor, data, abrirModal }) {
 
     function formatarValor(valor) {
