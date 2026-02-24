@@ -3,8 +3,8 @@ const urlsToCache = [
     '/',
     '/index.html',
     '/manifest.json',
-    '/icon-192.png',
-    '/icon-512.png'
+    '/android-launchericon-192-192.png', // Nome exato do seu arquivo
+    '/android-launchericon-512-512.png'  // Certifique-se que o de 512 também tem esse padrão
 ];
 
 // Instalação
