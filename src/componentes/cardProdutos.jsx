@@ -49,8 +49,15 @@ function CardProdutos({ nome, preco, foto, adicionarAoCarrinho }) {
         }).format(valor);
     }
 
+    // Vibração simples de 50 milissegundos (um "clique" rápido)
+    const vibrarCurto = () => {
+        if (navigator.vibrate) {
+            navigator.vibrate(50);
+        }
+    };
+
     return (
-        <Card onClick={() => adicionarAoCarrinho({ nome, preco })}>
+        <Card onClick={() => { vibrarCurto(); adicionarAoCarrinho({ nome, preco }) }}>
             <Imagem src={foto} alt={nome} />
             <Faixa>
                 <Nome>{nome}</Nome>

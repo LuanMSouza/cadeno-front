@@ -3,6 +3,7 @@ import TelaDescanso from "./telas/descanso"
 import './App.css'
 import Consultas from "./telas/consultar"
 import Pedidos from "./telas/pedidos"
+import Login from "./telas/login"
 
 
 
@@ -16,6 +17,8 @@ function App() {
 
   return (
     <>
+
+      {tela === 'login' && <Login setTela={mudarTela} />}
 
       {tela === 'descanso' && <TelaDescanso setTela={mudarTela} />}
       {tela === 'consulta' && <Consultas setTela={mudarTela} />}

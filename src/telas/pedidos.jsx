@@ -172,10 +172,28 @@ function Pedidos({ setTela }) {
                 .filter(item => item.quantidade > 0) // Remove do carrinho se quantidade chegar a 0
         )
     }
+    // Vibração simples de 50 milissegundos (um "clique" rápido)
+    const sucesso = () => {
+        if (navigator.vibrate) {
+            navigator.vibrate([50, 30, 50])
+        }
+    };
+
+    // Vibração dupla (ex: para erro ou aviso)
+    const vibrarErro = () => {
+        if (navigator.vibrate) {
+            navigator.vibrate([100, 50, 100]); // Vibra 100ms, para 50ms, vibra 100ms
+        }
+    };
 
     async function fecharPedido() {
         if (!clienteSelect) {
-            alert('Selecione um cliente para fechar o pedido.')
+            vibrarErro();
+            Swal.fire(
+                'Cliente não selecionado',
+                'Por favor, selecione um cliente para fechar o pedido.',
+                'error'
+            );
             return
         }
 
@@ -187,13 +205,13 @@ function Pedidos({ setTela }) {
                 itens: carrinho
             })
             Swal.fire('Sucesso!!', 'Pedido fechado com sucesso!', 'success')
+            sucesso();
             setCarrinho([])
             setTela('descanso')
         } catch (error) {
             console.log(error);
             Swal.fire('Erro', 'Ocorreu um erro ao fechar o pedido. Tente novamente.', 'error')
         }
-
     }
 
 

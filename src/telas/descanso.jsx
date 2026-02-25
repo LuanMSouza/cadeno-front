@@ -34,6 +34,11 @@ const Versao = styled.p`
 `
 
 function TelaDescanso({ setTela }) {
+
+  if (localStorage.getItem('token') === null) {
+    setTela('login')
+  }
+
   return <>
 
     <div className='ContainerPrincipal'>
