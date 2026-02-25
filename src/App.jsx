@@ -14,6 +14,7 @@ function App() {
   function mudarTela(novaTela) {
     setTela(novaTela)
   }
+  
 
   return (
     <>

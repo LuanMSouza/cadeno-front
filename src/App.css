@@ -52,3 +52,21 @@ body {
   border-radius: 5px;
   cursor: pointer;
 }
+
+html, body {
+  /* Impede o "puxar para atualizar" e o efeito de elástico no topo/fundo */
+  overscroll-behavior-y: contain;
+  /* Evita que a página role para os lados caso algo escape da largura */
+  overscroll-behavior-x: none;
+  /* Extra: impede que o usuário selecione textos (opcional, deixa mais cara de app) */
+  user-select: none;
+  /* Garante que o app ocupe a tela toda sem rolagens estranhas */
+  height: 100%;
+  overflow: hidden;
+}
+
+#root {
+  height: 100%;
+  overflow-y: auto;
+  /* Permite a rolagem apenas dentro do seu app */
+}
