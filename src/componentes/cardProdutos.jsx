@@ -51,8 +51,12 @@ function CardProdutos({ nome, preco, foto, adicionarAoCarrinho }) {
 
     // Vibração simples de 50 milissegundos (um "clique" rápido)
     const vibrarCurto = () => {
-        if (navigator.vibrate) {
-            navigator.vibrate(50);
+        // Adicionamos window. e um console.log para você debugar
+        if (typeof window !== 'undefined' && window.navigator && window.navigator.vibrate) {
+            console.log("Vibrando...");
+            window.navigator.vibrate(50);
+        } else {
+            console.log("Vibração não suportada ou bloqueada.");
         }
     };
 

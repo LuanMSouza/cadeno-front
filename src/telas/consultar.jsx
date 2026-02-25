@@ -43,7 +43,7 @@ function Consultas({ setTela }) {
     useEffect(() => {
         pegarDados()
 
-    },[])
+    }, [])
 
     function registarPagamento(id, nome, valor) {
         // 🔒 BLINDA: Converta valor para número desde o início
@@ -61,10 +61,11 @@ function Consultas({ setTela }) {
             if (result.isConfirmed) {
                 Swal.fire({
                     title: 'Digite o valor pago',
-                    input: 'text',
+                    input: 'number',
                     inputAttributes: {
-                        autocapitalize: 'off',
-                        placeholder: '0,00'
+                        min: '0',
+                        step: '0.01', // Permite centavos
+                        placeholder: '0.00'
                     },
                     showCancelButton: true,
                 })
