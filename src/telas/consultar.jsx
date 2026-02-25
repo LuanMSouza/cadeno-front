@@ -147,6 +147,30 @@ function Consultas({ setTela }) {
                     placeholder="Pesquisar por nome"
                     type="text" />
 
+                {localStorage.getItem('role') === 'gestor' && (
+                    <div style={{
+                        backgroundColor: '#fff',
+                        padding: '15px',
+                        borderRadius: '10px',
+                        margin: '10px 0',
+                        boxShadow: 'inset 0 0 5px rgba(0,0,0,0.1)',
+                        textAlign: 'center',
+                        border: '2px solid #459cff'
+                    }}>
+                        <p style={{ fontSize: '1.2rem', margin: 0, color: '#333' }}>
+                            Valor Total em Aberto:
+                            <strong style={{ color: '#d32f2f', marginLeft: '10px' }}>
+                                {dados
+                                    .filter(e => e.nome.toLowerCase().includes(FiltroInput.toLowerCase()))
+                                    .filter(e => e.saldo > 0)
+                                    .reduce((acc, obj) => acc + parseFloat(obj.saldo), 0)
+                                    .toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+                                }
+                            </strong>
+                        </p>
+                    </div>
+                )}
+
                 {dados ?
                     dados
                         .filter(e => e.nome.toLowerCase().includes(FiltroInput.toLowerCase()))
