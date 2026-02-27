@@ -59,9 +59,11 @@ const Card = styled.div`
 
 function TelaDescanso({ setTela }) {
 
-  if (localStorage.getItem('token') === null) {
-    setTela('login')
-  }
+  useEffect(() => {
+    if (localStorage.getItem('token') === null) {
+      setTela('login');
+    }
+  }, [setTela]);
 
   function formatarValor(valor) {
     return new Intl.NumberFormat('pt-BR', {
@@ -123,7 +125,7 @@ function TelaDescanso({ setTela }) {
         </>}
 
 
-      <Versao>V 1.0.0</Versao>
+      <Versao>V 1.0.1</Versao>
     </div>
 
 

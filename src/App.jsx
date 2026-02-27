@@ -9,12 +9,12 @@ import Login from "./telas/login"
 
 function App() {
 
-  const [tela, setTela] = useState('descanso')
-
+  const [tela, setTela] = useState(localStorage.getItem('token') ? 'descanso' : 'login');
+  
   function mudarTela(novaTela) {
     setTela(novaTela)
   }
-  
+
 
   return (
     <>
