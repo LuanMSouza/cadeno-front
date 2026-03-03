@@ -129,25 +129,18 @@ function ModalUltimosPedidos({ clienteId, clienteNome, fecharModal, registarPaga
         return new Date(data).toLocaleDateString('pt-BR');
     }
 
+    const totalGeralPendente = pedidos.reduce((total, p) =>
+        total + (parseFloat(p.valor_total || 0) - parseFloat(p.ja_abatido || 0)), 0
+    );
+
     return (
         <Modal>
             <Conteudo>
                 <BtnFechar onClick={fecharModal}>X</BtnFechar>
                 <h2>{clienteNome} - Últimos Pedidos</h2>
 
-                <BtnRegistrar onClick={() => {
-                    const totalPendente = pedidos.reduce((total, pedido) => {
-                        const vTotal = parseFloat(pedido.valor_total || 0);
-                        const vAbatido = parseFloat(pedido.ja_abatido || 0);
-                        const vRestante = vTotal - vAbatido;
-
-                        // Só soma se o valor restante for maior que zero (ignora pedidos já pagos)
-                        return total + (vRestante > 0 ? vRestante : 0);
-                    }, 0);
-
-                    registarPagamento(clienteId, clienteNome, totalPendente);
-                }}>
-                    Registrar Pagamento Total
+                <BtnRegistrar onClick={() => registarPagamento(clienteId, clienteNome, totalGeralPendente)}>
+                    Registrar Pagamento (R$ {formatarValor(totalGeralPendente)})
                 </BtnRegistrar>
 
 
