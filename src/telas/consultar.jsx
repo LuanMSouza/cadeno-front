@@ -75,7 +75,6 @@ function Consultas({ setTela }) {
                             const valorFormatado = result.value.replace(',', '.');
                             const valorPago = parseFloat(valorFormatado);
 
-                            // 🔒 BLINDA: Validações antes de enviar
                             if (result.value === '' || isNaN(valorPago)) {
                                 Swal.fire('Valor inválido', 'Por favor, insira um valor numérico válido.', 'error')
                                 return;
@@ -86,7 +85,6 @@ function Consultas({ setTela }) {
                                 return;
                             }
 
-                            // 🔒 BLINDA: Não permitir pagamento maior que o devedor
                             if (valorPago > valor) {
                                 Swal.fire(
                                     'Valor maior que o devedor',
